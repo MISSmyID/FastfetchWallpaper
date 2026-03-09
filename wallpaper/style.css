@@ -1,0 +1,528 @@
+:root {
+  --bg: #03090a;
+  --fg: #e6e6e6;
+  --cyan: #62d8ff;
+  --cyan-dim: #55c7eb;
+  --yellow: #d8a84a;
+  --green: #54ff9d;
+  --green-soft: #4de087;
+  --red: #ff5f5f;
+  --orange: #ffb347;
+  --dim: #7a8b8f;
+  --accent: #62d8ff;
+  --crt-reactive: 0;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Cascadia Mono", Consolas, monospace;
+}
+
+pre {
+  margin: 0;
+  font: inherit;
+}
+
+body:hover #wmLogo {
+  opacity: 0.08;
+}
+
+/* ==========================================================================
+   LAYOUT
+   ========================================================================== */
+
+#screen {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+#hud {
+  width: 1920px;
+  height: 1080px;
+  transform-origin: top left;
+  margin-top: -8px;
+  margin-left: 16px;
+  animation: hudBreath 8.5s ease-in-out infinite;
+  will-change: filter, opacity;
+}
+
+#terminal {
+  padding: 2px 4px 0 4px;
+  font-size: 15px;
+  line-height: 1.03;
+  letter-spacing: 0;
+  white-space: pre;
+  text-rendering: geometricPrecision;
+  filter: saturate(1.02);
+}
+
+#topRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+
+/* =========================================================
+   WATERMARK
+   ========================================================= */
+
+#wmLogo {
+  position: fixed;
+  right: 28px;
+  bottom: 54px;
+
+  width: 124px;
+  height: auto;
+
+  opacity: 0.18;
+  pointer-events: none;
+
+  stroke: var(--accent);
+  fill: none;
+
+  filter:
+    drop-shadow(0 0 6px rgba(120,255,180,0.25))
+    drop-shadow(0 0 18px rgba(120,255,180,0.15));
+
+  animation: wmBreath 10s ease-in-out infinite;
+}
+
+/* элементы логотипа */
+
+.wmFrame {
+  stroke-width: 5;
+}
+
+.wmScreen {
+  stroke-width: 3;
+}
+
+.wmEye {
+  stroke-width: 4;
+}
+
+.wmBranch {
+  stroke-width: 2;
+  opacity: 0.7;
+}
+
+.wmText {
+  fill: var(--accent);
+  stroke: none;
+  font-size: 26px;
+  font-family: "Cascadia Mono", monospace;
+  letter-spacing: 4px;
+  opacity: 0.8;
+}
+
+/* лёгкое "дыхание" неона */
+
+@keyframes wmBreath {
+
+  0% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.22;
+    transform: scale(1.01);
+  }
+
+  100% {
+    opacity: 0.15;
+    transform: scale(1);
+  }
+
+}
+
+
+/* ==========================================================================
+   LOGO / SYSINFO
+   ========================================================================== */
+
+#logo {
+  position: relative;
+  color: var(--accent);
+  opacity: 0.92;
+  text-shadow:
+    0 0 2px color-mix(in srgb, var(--accent) 32%, transparent),
+    0 0 6px color-mix(in srgb, var(--accent) 14%, transparent);
+  animation: logoGlow 4.5s ease-in-out infinite;
+}
+
+#logo .logoCell {
+  display: inline;
+  transition:
+    color 90ms linear,
+    text-shadow 90ms linear,
+    filter 90ms linear,
+    opacity 90ms linear;
+}
+
+#logo .logoCell.waveOn {
+  color: #e8ffff;
+  filter: brightness(1.2);
+  text-shadow:
+    0 0 2px currentColor,
+    0 0 8px color-mix(in srgb, currentColor 35%, transparent),
+    0 0 14px color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.host {
+  color: var(--yellow);
+}
+
+#sysinfo .k {
+  color: var(--yellow);
+}
+
+#sysinfo .v {
+  color: var(--fg);
+}
+
+#sysinfo .host {
+  color: var(--yellow);
+}
+
+/* ==========================================================================
+   TERMINAL SECTIONS
+   ========================================================================== */
+
+#loadSection,
+#storageSection,
+#audioSection,
+#nowPlayingSection {
+  margin-top: -2px;
+}
+
+#nowPlayingSection {
+  color: var(--fg);
+}
+
+#nowPlayingSection span {
+  text-shadow:
+    0 0 1px currentColor,
+    0 0 3px color-mix(in srgb, currentColor 28%, transparent);
+}
+
+.progressHead {
+  font-weight: 700;
+}
+/* ==========================================================================
+   STATUS LINE
+   ========================================================================== */
+
+#statusLine {
+
+  position: fixed;
+
+  left: 50%;
+  bottom: 60px;
+
+  transform: translateX(-50%);
+
+  white-space: pre;
+
+  font-size: 14px;
+  line-height: 1;
+
+  color: var(--dim);
+  opacity: 0.92;
+
+  text-shadow:
+    0 0 1px currentColor,
+    0 0 4px color-mix(in srgb, currentColor 14%, transparent);
+
+  pointer-events: none;
+
+}
+#statusLine {
+
+  padding: 4px 14px;
+
+  border-radius: 8px;
+
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(6px);
+
+}
+
+#statusLine .statusAccent {
+  color: var(--accent);
+}
+
+#statusLine .statusSep {
+  color: color-mix(in srgb, var(--accent) 40%, var(--dim));
+}
+
+#statusLine .statusClock {
+  color: var(--yellow);
+}
+
+#statusLine .ok {
+  color: var(--green);
+}
+
+#statusLine .warn {
+  color: var(--orange);
+}
+
+#statusLine .bad {
+  color: var(--red);
+}
+
+#statusLine .dim {
+  color: var(--dim);
+}
+/* ==========================================================================
+   ASCII ART
+   ========================================================================== */
+
+#asciiArtSection {
+  position: relative;
+  margin-top: -40px;
+  white-space: pre;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 10px;
+  line-height: 11px;
+  font-weight: 700;
+  text-shadow: 0 0 2px currentColor;
+  will-change: transform, opacity, filter;
+  transition:
+    opacity 120ms linear,
+    transform 120ms linear,
+    filter 120ms linear;
+}
+
+#asciiArtSection span {
+  text-shadow:
+    0 0 1px currentColor,
+    0 0 4px color-mix(in srgb, currentColor 35%, transparent);
+}
+
+/* ==========================================================================
+   OVERLAY FX LAYERS
+   ========================================================================== */
+
+#scanlines {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.028) 0%,
+      rgba(255, 255, 255, 0) 48%,
+      rgba(0, 0, 0, 0.18) 100%
+    );
+  background-size: 100% 4px;
+  opacity: 0.16;
+  mix-blend-mode: screen;
+}
+
+#vignette {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0) 56%,
+      rgba(0, 0, 0, 0.28) 74%,
+      rgba(0, 0, 0, 0.72) 100%
+    );
+}
+
+#crtGlow {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(0, 255, 210, calc(0.08 + var(--crt-reactive, 0) * 0.18)) 0%,
+      rgba(0, 180, 140, calc(0.035 + var(--crt-reactive, 0) * 0.10)) 26%,
+      rgba(0, 110, 90, calc(0.018 + var(--crt-reactive, 0) * 0.06)) 48%,
+      rgba(0, 0, 0, 0) 78%
+    );
+  opacity: 0.30;
+  transform-origin: center center;
+  will-change: opacity, transform, filter, background;
+  mix-blend-mode: screen;
+}
+
+#logoShimmer {
+  pointer-events: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 420px;
+  height: 260px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(160, 240, 255, 0.09) 45%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+#bgFlicker {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.01) 38%,
+      rgba(0, 0, 0, 0) 74%
+    );
+  opacity: 0.1;
+  mix-blend-mode: screen;
+  animation:
+    bgPulse 5.5s ease-in-out infinite,
+    bgFlicker 8s steps(1) infinite;
+}
+
+/* ==========================================================================
+   SIGNAL FLICKER
+   ========================================================================== */
+
+#logo.signalFlicker,
+#asciiArtSection.signalFlicker {
+  animation: signalFlickerPulse 120ms steps(2, end);
+}
+
+#logo.signalFlicker::before,
+#asciiArtSection.signalFlicker::before,
+#logo.signalFlicker::after,
+#asciiArtSection.signalFlicker::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+
+#logo.signalFlicker::before,
+#asciiArtSection.signalFlicker::before {
+  background: linear-gradient(
+    to right,
+    rgba(255, 80, 80, 0.05),
+    rgba(255, 80, 80, 0)
+  );
+  transform: translateX(-1px);
+  mix-blend-mode: screen;
+  animation: signalChromaticRed 120ms steps(2, end);
+}
+
+#logo.signalFlicker::after,
+#asciiArtSection.signalFlicker::after {
+  background: linear-gradient(
+    to left,
+    rgba(80, 220, 255, 0.06),
+    rgba(80, 220, 255, 0)
+  );
+  transform: translateX(1px);
+  mix-blend-mode: screen;
+  animation: signalChromaticBlue 120ms steps(2, end);
+}
+
+/* ==========================================================================
+   ANIMATIONS
+   ========================================================================== */
+
+@keyframes hudBreath {
+  0% {
+    filter: brightness(0.985) saturate(1);
+    opacity: 0.985;
+  }
+  50% {
+    filter: brightness(1.015) saturate(1.03);
+    opacity: 1;
+  }
+  100% {
+    filter: brightness(0.985) saturate(1);
+    opacity: 0.985;
+  }
+}
+
+@keyframes bgPulse {
+  0% { opacity: 0.05; }
+  50% { opacity: 0.09; }
+  100% { opacity: 0.05; }
+}
+
+@keyframes bgFlicker {
+  0%   { filter: brightness(1); }
+  6%   { filter: brightness(1); }
+  7%   { filter: brightness(1.08); }
+  8%   { filter: brightness(1); }
+  27%  { filter: brightness(1); }
+  28%  { filter: brightness(1.06); }
+  29%  { filter: brightness(1); }
+  53%  { filter: brightness(1); }
+  54%  { filter: brightness(1.09); }
+  55%  { filter: brightness(1); }
+  78%  { filter: brightness(1); }
+  79%  { filter: brightness(1.07); }
+  80%  { filter: brightness(1); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes logoGlow {
+  0% {
+    opacity: 0.86;
+    filter: brightness(0.95);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.08);
+  }
+  100% {
+    opacity: 0.86;
+    filter: brightness(0.95);
+  }
+}
+
+@keyframes signalFlickerPulse {
+  0% {
+    filter: brightness(1) saturate(1);
+  }
+  35% {
+    filter: brightness(1.14) saturate(1.08);
+  }
+  100% {
+    filter: brightness(1) saturate(1);
+  }
+}
+
+@keyframes signalChromaticRed {
+  0% { opacity: 0; }
+  30% { opacity: 0.45; }
+  100% { opacity: 0; }
+}
+
+@keyframes signalChromaticBlue {
+  0% { opacity: 0; }
+  30% { opacity: 0.5; }
+  100% { opacity: 0; }
+}
